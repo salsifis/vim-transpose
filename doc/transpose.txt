@@ -1,0 +1,139 @@
+*transpose.txt*	For Vim version 7.3	Last change: 2012 May 3
+
+Plugin author: Benoit Mortgat
+                                                         *transpose-tutorial*
+                                                         *transpose*
+Welcome to the transpose plugin tutorial.
+
+For your convenience, tab characters appear as > throughout this tutorial,
+except if you don't have `:set modeline` in your vimrc.
+
+First, ensure that |g:transpose_keepindent| is equal to 1. This should be the
+case if you did not mess with the plugin settings.
+
+===============================================================================
+Basic transposition~
+                                                         *:Transpose*
+
+Visually select the following lines (V2j) and use the |:Transpose| command
+(you will see :'<,'>Transpose in the command bar)
+Then, Use :Transpose another time on the result.
+>
+    abcd
+    efghij
+    klmno
+<
+As you see, the :Transpose command takes an array of characters, and swaps
+lines with columns. When you run :Transpose a second time, you will get the
+original text back, except that extra spaces will have been inserted, which
+is because :Transpose needs to work on rectangular data
+
+===============================================================================
+Word transposition~
+                                                         *:TransposeWords*
+
+Visually select the following lines (V3j) and use the |:TransposeWords|
+command.
+Then, Use :TransposeWords another time on the result.
+>
+    Eeny  meenie miny    moe
+    Catch a      tiger   by  the toe
+    If    he     hollers let him go
+    Eeny  meenie miny    moe
+<
+You can see that this command will insert interrogation marks when an input
+line was not long enough and there is a missing field. If it did not, the
+command would not be invertible.
+
+However you can provide an additional argument to :TransposeWords to set that
+default value and override the interrogation mark.
+
+===============================================================================
+Tab-separated fields transposition~
+                                                         *:TransposeTab*
+
+Visually select the following lines (V3j) and use the |:TransposeTab| command.
+Then, Use :TransposeTab another time on the result.
+>
+    Eeny	meenie	miny	moe
+    Catch	a	tiger	by	the	toe
+    If	he	hollers	let	him	go
+    Eeny	meenie	miny	moe
+<
+This is similar to :TransposeWords, but any tabulation is a separator.
+Multiple tabs are considered as many separators. Therefore, there is no need
+for a default value.
+
+===============================================================================
+Separated fields transposition~
+                                                         *:TransposeCSV*
+
+Visually select the following lines (V2j) and use the |:TransposeCSV| command.
+Then, Use :TransposeCSV another time on the result.
+>
+    ab;cd
+    e;f;gh;ij
+    klm;no
+<
+This is like the tab-separated case, but the separator is by default the
+semicolon. However you can specify the separator of your choice in a first
+argument. You can Use :TransposeCSV \	 instead of :TransposeTab but as you
+can see it is necessary to escape the tabulation character, which is messy.
+
+Visually select the following lines (V2j) and type >
+ :TransposeCSV ,
+<and another time to switch back:
+>
+    ab,cd
+    e,f,gh,ij
+    klm,no
+<
+You can also provide a second argument, which is the delimiter. In this case:
+ - A field will be delimited when the first character in the field is the
+   delimiter.
+ - When a field is delimited, it must end with the delimiter
+ - When a field is delimited, it can include the separator
+ - When a field is delimited, it can include the delimiter, escaped by itself
+   (like SQL string literals).
+
+Try to transpose this CSV separated by tab and delimited by apostrophe: you
+will have to escape the tab with a backslash in the command line.
+:TransposeCSV \	 '
+>
+    'I''m a field	 with a tab'	I'm a field without tab
+    No tab here	'There is a tab	here'	A third field
+<
+===============================================================================
+Interactive transposition~
+                                                         *:TransposeInteractive*
+
+Assume this input
+>
+    A		b	c
+    D	e		f
+    	ghi
+<
+You want this output:
+>
+    A,D,
+    b,e,ghi
+    c,f,xxx
+<
+It is possible! Basically, your input fields are separated by one or more
+tabs, you want to have a table with commas in the output, and nonexistent
+fields (the third input line had only two fields) will come as xxx
+
+Select the input lines and use |:TransposeInteractive|, you will be prompted
+for:
+ - A vim pattern that will be used to separate input fields: type >
+
+       \t\+
+<
+ - An output separator, type a comma
+ - A default field value, type xxx 
+
+That's all.
+
+===============================================================================
+
+vim: readonly noexpandtab ft=help modifiable list listchars=tab\:>\ 
