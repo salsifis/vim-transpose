@@ -22,7 +22,7 @@ function transpose#t(first_line, last_line, isp, ofs, dfv)
   endif
 
   " Split each line into fields according to the input pattern separator
-  let tokenized_lines = map( input_lines, 'split(v:val, a:isp, 1)')
+  let tokenized_lines = map(input_lines, 'len(v:val)?split(v:val, a:isp, 1):[]')
 
   " Delete input lines from buffer, to the black hole register
   silent! execute a:first_line . ',' . a:last_line . 'd _'
