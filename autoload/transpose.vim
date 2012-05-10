@@ -11,6 +11,7 @@
 " * dfv                     | Default field value when transposed data has not
 "                           | The same number of fields on each line
 function transpose#t(first_line, last_line, isp, ofs, dfv)
+  let whole_buffer = (a:first_line <= 1 && a:last_line == line('$')) ? 1 : 0
   let input_lines = getline(a:first_line, a:last_line)
 
   let indentation = 0
@@ -41,6 +42,12 @@ function transpose#t(first_line, last_line, isp, ofs, dfv)
     \                )
     \          )
   endfor
+
+  " If the whole buffer was transposed, there was a moment after deleting
+  " all input lines, where there was an empty line. Now time to remov it.
+  if(whole_buffer)
+    execute '$d _'
+  endif
 endfunction
 
 " == Specialized function: Array of characters ==
