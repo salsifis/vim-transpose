@@ -5,8 +5,9 @@ Plugin author: Benoit Mortgat
                                                          *transpose*
 Welcome to the transpose plugin tutorial.
 
-For your convenience, tab characters appear as > throughout this tutorial,
-except if you don't have `:set modeline` in your vimrc.
+Note~
+For your convenience, tab characters appear as > throughout this tutorial, and
+trailing spaces as *, except if you don't have `:set modeline` in your vimrc.
 
 First, ensure that |g:transpose_keepindent| is equal to 1. This should be the
 case if you did not mess with the plugin settings.
@@ -130,10 +131,10 @@ for:
        \t\+
 <
  - An output separator, type a comma
- - A default field value, type xxx 
+ - A default field value, type xxx
 
 That's all.
 
 ===============================================================================
 
-vim: readonly noexpandtab ft=help modifiable list listchars=tab\:>\ 
+vim: readonly noexpandtab ft=help modifiable list listchars=tab\:>\ ,trail\:*
