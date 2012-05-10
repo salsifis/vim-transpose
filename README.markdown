@@ -11,25 +11,38 @@ text, or lines that you can tokenize with a custom pattern.
     o                             dim s
     pqrst                         e n t
 
+Commands
+--------
+Five commands are provided:
+
+ * `:Transpose` (for character array transposition),
+ * `:TransposeWords` (for word array transposition),
+ * `:TransposeTab` (for tab-separated transposition),
+ * `:TransposeCSV` (for general delimited text transposition), and
+ * `:TransposeInteractive` (for custom transposition).
+
 Installation
 ------------
 
 If you have the Pathogen plugin installed or any other plugin manager, then
 just copy this filetree into a subfolder of your Bundle folder.
 
-Otherwise, copy the contents of the doc/, plugin/ and autoload/ folders to
-resp.  ~/.vim/doc, ~/.vim/plugin and ~/.vim/autoload
+Otherwise, copy the contents of the `doc/`, `plugin/` and `autoload/` folders
+to resp.  `~/.vim/doc`, `~/.vim/plugin` and `~/.vim/autoload` respectively.
 
-Tutorial
+Get started
 --------
 
-Open doc/transpose.txt inside vim, and try on the provided examples.
+After having built help tags (run `:Helptags` if you have pathogen installed)
+run `:help transpose-tutorial`, and follow the instructions. If you don't have
+pathogen installed and don't know how to build the help tags, just open
+`doc/transpose.txt` inside vim.
 
 Development
 -----------
 
 The main git repository for this plugin is at
-http://github.com/salsifis/vim-transpose
+`http://github.com/salsifis/vim-transpose`
 
 Licensing
 ---------
