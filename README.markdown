@@ -1,15 +1,11 @@
 This is a vim plugin that helps you transpose blocks of text, words, delimited
 text, or lines that you can tokenize with a custom pattern.
 
-    ab,cd,ef   :TransposeCSV ,   ab,gh,mno
-    gh,ij,kl ==================> cd,ij,pqrs
-    mno,pqrs                     ef,kl,
+![Transposition before](https://github.com/salsifis/vim-transpose/blob/master/screenshots/before.png?raw=true)
 
-    abcde                         afjop
-    fghi       :Transpose         bgk q
-    jklmn  ====================>  chl r
-    o                             dim s
-    pqrst                         e n t
+Validate this command and get:
+
+![Transposition after](https://github.com/salsifis/vim-transpose/blob/master/screenshots/after.png?raw=true)
 
 Commands
 --------
