@@ -2,7 +2,7 @@ This is a vim plugin that helps you transpose (in the sense of matrix
 transposition) blocks of text, words, delimited text, or lines that you can
 tokenize with a custom pattern.
 
-vim-transpose is written in pure vimscript (no need for Python nor Perl).
+vim-transpose is written in pure VimL (no need for Python nor Perl).
 
 ![Transposition examples](https://github.com/salsifis/vim-transpose/blob/master/screenshots/demo.png?raw=true)
 

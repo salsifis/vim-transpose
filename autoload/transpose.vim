@@ -2,7 +2,11 @@
 " Plugin author: Benoit Mortgat
 " Main git repository: http://github.com/salsifis/vim-transpose
 
-" == Main function ==
+" this script should be pure ASCII but just in case
+scriptencoding utf-8
+
+" == Main function == {{{
+" This function does the work, all other functions call it.
 "
 " * first_line , last_line  | range of lines on which to operate
 " * isp                     | Input separator pattern (tokenizes input lines)
@@ -16,8 +20,11 @@ function transpose#t(first_line, last_line, isp, ofs, dfv)
 
   let indentation = 0
   if exists('g:transpose_keepindent') && g:transpose_keepindent > 0
+      " find the first non-space on each line; the indentation is the
+      " lowest value found. TODO: accept tabs
       let indentation = min(map(copy(input_lines), 'match(v:val,"[^ ]")'))
       if indentation > 0
+        " de-indent each input line
         call map(input_lines, 'v:val['.indentation.':]')
       endif
   endif
@@ -28,6 +35,8 @@ function transpose#t(first_line, last_line, isp, ofs, dfv)
   " Delete input lines from buffer, to the black hole register
   silent! execute a:first_line . ',' . a:last_line . 'd _'
 
+  " There are as many lines in output as number of fields in the line that has
+  " the greatest amount of fields
   let nb_output_lines = max(map(copy(tokenized_lines), 'len(v:val)'))
 
   " For each output line (line i) take i^th field of each input line. If it does
@@ -44,21 +53,21 @@ function transpose#t(first_line, last_line, isp, ofs, dfv)
   endfor
 
   " If the whole buffer was transposed, there was a moment after deleting
-  " all input lines, where there was an empty line. Now time to remov it.
+  " all input lines, where there was an empty line. Now time to remove it.
   if(whole_buffer)
     execute '$d _'
   endif
-endfunction
+endfunction " }}}
 
-" == Specialized function: Array of characters ==
+" == Specialized function: Array of characters == {{{
 function transpose#block(first_line, last_line)
   " Input separator pattern: any zero-width match between two chars => .\zs\ze.
   " Output separator: empty
   " Default field value: a space.
   call transpose#t(a:first_line, a:last_line, '.\zs\ze.', '', ' ')
-endfunction
+endfunction " }}}
 
-" == Specialized function: Words (separated by whitespace)
+" == Specialized function: Words (separated by whitespace) {{{
 function transpose#words(first_line, last_line, ...)
   " If an argument is provided, this is the default field value
   if a:0 > 1
@@ -69,17 +78,17 @@ function transpose#words(first_line, last_line, ...)
   " Output separator: one space
   " Default field value: nonempty.
   call transpose#t(a:first_line, a:last_line, '\s\+', ' ', dfv)
-endfunction
+endfunction " }}}
 
-" == Specialized function: Tabs (separated by tabulation character)
+" == Specialized function: Tabs (separated by tabulation character) {{{
 function transpose#tab(first_line, last_line)
   " Input separator pattern: single tab
   " Output separator: tab
   " Default field value: empty
   call transpose#t(a:first_line, a:last_line, "\x09", "\x09", '')
-endfunction
+endfunction " }}}
 
-" == Specialized function: Separated fields ==
+" == Specialized function: Separated fields == {{{
 " There are two special sequences of characters in the input:
 " * The separator (typically semicolon)
 " * The delimiter; when fields contain the separator their contents can be
@@ -91,8 +100,23 @@ endfunction
 " 'a;b';c;'d;e''f'
 " Contains three fields : a;b |  c | d;e'f
 function transpose#delimited(first_line, last_line, separator, delimiter)
-  let separator = escape(a:separator          , '\*[].^$')
+  let separator = escape(a:separator, '\*[].^$')
   let delimiter = escape(a:delimiter, '\*[].^$')
+
+  " Vim pattern that matches a field:
+  " Either:
+  "  * It starts with the delimiter
+  "  * It globs as many non-delimiters and double-delimiters as it can
+  "  * It ends with the delimiter
+  "  * There is no delimiter afterwards
+  " Or:
+  "  * It consists of characters that are neither the delimiter nor the
+  "    separator
+  "
+  " And there is always a separator afterwards.
+  "
+  " We put \zs in the pattern to only match the separator.
+
   if delimiter !=# ''
     let isp = '\%('
     \       . delimiter
@@ -105,9 +129,9 @@ function transpose#delimited(first_line, last_line, separator, delimiter)
   let ofs = a:separator
   let placeholder = ''
   call transpose#t(a:first_line, a:last_line, isp, ofs, placeholder)
-endfunction
+endfunction " }}}
 
-" == Specialized function: CSV input ==
+" == Specialized function: CSV input == {{{
 " Calls the previous function, with variable number of arguments. Number of
 " additional arguments shall not exceed 2.
 " 1st argument: separator, default is semicolon
@@ -119,15 +143,15 @@ function transpose#csv(first_line, last_line, ...)
   let separator = (a:0 > 0) ? a:1 : ';'
   let delimiter = (a:0 > 1) ? a:2 : ''
   call transpose#delimited(a:first_line, a:last_line, separator, delimiter)
-endfunction
+endfunction " }}}
 
-" == Interactive way ==
+" == Interactive way == {{{
 " Asks for parameters
 function transpose#interactive(first_line, last_line)
   let isp = input('What Vim pattern separates input fields? ')
   let ofs = input('What string will join fields in output? ')
   let dfv = input('What is default field value? ')
   call transpose#t(a:first_line, a:last_line, isp, ofs, dfv)
-endfunction
+endfunction " }}}
 
-" vim: ts=2 sw=2 et tw=80 colorcolumn=+1
+" vim: ts=2 sw=2 et tw=80 colorcolumn=+1 fdm=marker fmr={{{,}}}
