@@ -47,7 +47,9 @@ line was not long enough and there is a missing field. If it did not, the
 command would not be invertible.
 
 However you can provide an additional argument to :TransposeWords to set that
-default value and override the interrogation mark.
+default value and override the interrogation mark. Since this command can be
+chained with another command, you must escape vertical bars with backslashes
+if you need them in the default value.
 
 ===============================================================================
 Tab-separated fields transposition~
@@ -104,6 +106,9 @@ will have to escape the tab with a backslash in the command line.
     'I''m a field	 with a tab'	I'm a field without tab
     No tab here	'There is a tab	here'	A third field
 <
+Since this command can be chained with another command, you must escape
+vertical bars with backslashes if you need them in the delimiter or separator.
+
 ===============================================================================
 Interactive transposition~
                                                          *:TransposeInteractive*
