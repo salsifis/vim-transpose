@@ -19,6 +19,7 @@ function transpose#t(first_line, last_line, isp, ofs, dfv)
 
   let cursor_was_at_first_line = (line('.') == a:first_line ? 1 : 0)
   let cursor_was_at_last_line = (line('.')  == a:last_line ? 1 : 0)
+  let old_mode = mode()
 
   let input_lines = getline(a:first_line, a:last_line)
 
@@ -60,6 +61,9 @@ function transpose#t(first_line, last_line, isp, ofs, dfv)
   " all input lines, where there was an empty line. Now time to remove it.
   if(whole_buffer)
     execute '$d _'
+  else
+    execute '' . a:first_line . 'mark <'
+    execute '' . (a:first_line + nb_output_lines - 1) . 'mark >'
   endif
 
   if cursor_was_at_first_line == 1
@@ -67,6 +71,11 @@ function transpose#t(first_line, last_line, isp, ofs, dfv)
   elseif cursor_was_at_last_line == 1
     execute '' . (a:first_line + nb_output_lines - 1)
   endif
+
+  if old_mode ==? 'v'
+    execute 'normal gv'
+  endif
+
 endfunction " }}}
 
 " == Specialized function: Array of characters == {{{
