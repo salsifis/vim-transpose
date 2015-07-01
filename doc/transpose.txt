@@ -1,4 +1,4 @@
-*transpose.txt*	For Vim version 7.3	Last change: 2012 May 3
+*transpose.txt*	For Vim version 7.3	Last change: 2015 Jul 1
 
 Plugin author: Benoit Mortgat
                                                          *transpose-tutorial*
