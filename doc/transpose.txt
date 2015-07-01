@@ -109,6 +109,13 @@ will have to escape the tab with a backslash in the command line.
 Since this command can be chained with another command, you must escape
 vertical bars with backslashes if you need them in the delimiter or separator.
 
+                                            *g:transpose_csv_default_separator*
+
+You can override the default separator. If you want it to be a comma by
+default, put the following line into your vimrc:
+>
+    let g:transpose_csv_default_separator = ','
+<
 ===============================================================================
 Interactive transposition~
                                                          *:TransposeInteractive*
