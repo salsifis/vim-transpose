@@ -159,7 +159,7 @@ function transpose#csv(first_line, last_line, ...)
   if a:0 > 2
     throw 'Optional arguments: separator, delimiter. Only 2 allowed.'
   endif
-  let separator = (a:0 > 0) ? a:1 : ';'
+  let separator = (a:0 > 0) ? a:1 : ','
   let delimiter = (a:0 > 1) ? a:2 : ''
   call transpose#delimited(a:first_line, a:last_line, separator, delimiter)
 endfunction " }}}
