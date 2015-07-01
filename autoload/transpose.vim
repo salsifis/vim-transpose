@@ -16,6 +16,10 @@ scriptencoding utf-8
 "                           | The same number of fields on each line
 function transpose#t(first_line, last_line, isp, ofs, dfv)
   let whole_buffer = (a:first_line <= 1 && a:last_line == line('$')) ? 1 : 0
+
+  let cursor_was_at_first_line = (line('.') == a:first_line ? 1 : 0)
+  let cursor_was_at_last_line = (line('.')  == a:last_line ? 1 : 0)
+
   let input_lines = getline(a:first_line, a:last_line)
 
   let indentation = 0
@@ -56,6 +60,12 @@ function transpose#t(first_line, last_line, isp, ofs, dfv)
   " all input lines, where there was an empty line. Now time to remove it.
   if(whole_buffer)
     execute '$d _'
+  endif
+
+  if cursor_was_at_first_line == 1
+    execute a:first_line
+  elseif cursor_was_at_last_line == 1
+    execute '' . (a:first_line + nb_output_lines - 1)
   endif
 endfunction " }}}
 
