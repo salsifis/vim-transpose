@@ -15,6 +15,7 @@ Five commands are provided:
  * `:TransposeTab` (for tab-separated table transposition),
  * `:TransposeCSV` (for general delimited text transposition), and
  * `:TransposeInteractive` (for custom transposition).
+ * `:TransposeAgain` (for repeatability).
 
 An additional variable, `g:transpose_keepindent` controls whether the plugin
 should detect indentation of the range. The `:TransposeIndentToggle` command
@@ -62,7 +63,7 @@ License
 
 zlib/libpng license.
 
-Copyright (c) 2012 Benoit Mortgat
+Copyright (c) 2026 Benoit Mortgat
 
 This software is provided 'as-is', without any express or implied warranty. In
 no event will the authors be held liable for any damages arising from the use
