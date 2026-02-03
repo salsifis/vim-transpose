@@ -14,6 +14,9 @@ endif
 command -range=% -nargs=0 -bar Transpose
       \ call transpose#block  (<line1>, <line2>)
 
+command -range=% -nargs=0 -bar TransposeAgain
+      \ call transpose#again  (<line1>, <line2>)
+
 command -range=% -nargs=? -bar TransposeWords
       \ call transpose#words  (<line1>, <line2>, <f-args>)
 

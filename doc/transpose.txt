@@ -1,4 +1,4 @@
-*transpose.txt*	For Vim version 7.3	Last change: 2015 Jul 1
+*transpose.txt*	For Vim version 7.3	Last change: 2026 Feb 3
 
 Plugin author: Benoit Mortgat
                                                          *transpose-tutorial*
@@ -116,6 +116,31 @@ default, put the following line into your vimrc:
 >
     let g:transpose_csv_default_separator = ','
 <
+===============================================================================
+Same transposition~
+                                                         *:TransposeAgain*
+
+You can repeat a transposition with the last used settings with this command.
+
+Try to hit |gv| to select last pattern, and then type >
+ :TransposeAgain
+<
+                                            *g:transpose_last_isp*
+                                            *g:transpose_last_ofs*
+                                            *g:transpose_last_dfv*
+
+This relies on the three variables:
+
+    * g:transpose_last_isp
+    * g:transpose_last_ofs
+    * g:transpose_last_dfv
+
+which correspond respectively to input separator pattern, output field
+separator, and placeholder value.
+
+If you frequently use the same parameters you can set these variables into
+your vimrc and set a mapping to invoke |:TransposeAgain|.
+
 ===============================================================================
 Interactive transposition~
                                                          *:TransposeInteractive*

@@ -76,6 +76,9 @@ function transpose#t(first_line, last_line, isp, ofs, dfv)
     execute 'normal gv'
   endif
 
+  let g:transpose_last_isp = a:isp
+  let g:transpose_last_ofs = a:ofs
+  let g:transpose_last_dfv = a:dfv
 endfunction " }}}
 
 " == Specialized function: Array of characters == {{{
@@ -171,6 +174,20 @@ function transpose#interactive(first_line, last_line)
   let ofs = input('What string will join fields in output? ')
   let dfv = input('What is default field value? ')
   call transpose#t(a:first_line, a:last_line, isp, ofs, dfv)
+endfunction " }}}
+
+" == Invoke transpose with same parameters as previously, defaults to tab == {{{
+function transpose#again(first_line, last_line)
+  if !exists('g:transpose_last_isp')
+    let g:transpose_last_isp = "\x09"
+  endif
+  if !exists('g:transpose_last_ofs')
+    let g:transpose_last_ofs = "\x09"
+  endif
+  if !exists('g:transpose_last_dfv')
+    let g:transpose_last_dfv = ""
+  endif
+  call transpose#t(a:first_line, a:last_line, g:transpose_last_isp, g:transpose_last_ofs, g:transpose_last_dfv)
 endfunction " }}}
 
 " vim: ts=2 sw=2 et tw=80 colorcolumn=+1 fdm=marker fmr={{{,}}}
